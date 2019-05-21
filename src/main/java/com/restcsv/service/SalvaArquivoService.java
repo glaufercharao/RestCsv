@@ -1,13 +1,18 @@
 package com.restcsv.service;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.restcsv.entidade.Cidade;
 import com.restcsv.entidade.Estado;
@@ -22,7 +27,28 @@ public class SalvaArquivoService {
 	@Autowired
 	private EstadoRepository estadoRepo;
 
-	public void salvaArquivo(Set<String> estado, List<String> cidade) {
+	public void salvaArquivo(MultipartFile file) {
+        Set<String> estado = new HashSet<>();
+        List<String> cidade = new ArrayList<String>(); 
+		
+		try {
+			InputStream input = file.getInputStream();
+	        InputStreamReader isr = new InputStreamReader(input);
+	        BufferedReader br = new BufferedReader(isr);
+	        
+			input.read();
+	        String s = br.readLine();
+
+	        while ((s = br.readLine())!= null) {
+	        	cidade.add(s.toString());
+	            String[] dados = s.split(",");
+	            estado.add(dados[1]);
+	        }
+
+	        br.close();
+		} catch (Exception e) {
+			 e.getStackTrace();
+		}
 		
 		for (String es : estado) {	
 			Estado estadoObj = new Estado();
@@ -50,6 +76,7 @@ public class SalvaArquivoService {
 				}
 				estadoRepo.saveAll(Arrays.asList(estadoObj));
 			}
+			
 		}
 	}
 	

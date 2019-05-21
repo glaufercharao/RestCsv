@@ -1,6 +1,7 @@
 package com.restcsv.resource;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,31 +34,9 @@ public class CsvService {
 	private SalvaArquivoService salvaArq;
 	
     @PostMapping("/upload")
-    public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile file) {
-    	
-    	try {
-			InputStream input = file.getInputStream();
-            InputStreamReader isr = new InputStreamReader(input);
-            BufferedReader br = new BufferedReader(isr);	
-			input.read();
-            String s = br.readLine();
-            Set<String> estado = new HashSet<>();
-            List<String> cidade = new ArrayList<String>(); 
-
-            while ((s = br.readLine())!= null) {
-            	cidade.add(s.toString());
-                String[] dados = s.split(",");
-                estado.add(dados[1]);
-            }
-
-            br.close();
-           this.salvaArq.salvaArquivo(estado, cidade); 
-    	
-    	} catch (IOException e) {
-			e.printStackTrace();
-		}
-    return ResponseEntity.status(HttpStatus.OK).build();
-    
+    public ResponseEntity<String> fileUpload(@RequestParam MultipartFile file) {
+       this.salvaArq.salvaArquivo(file);  	
+       return ResponseEntity.status(HttpStatus.OK).build();
     }
     
     @GetMapping(value="/cidade/listar/{id}")
@@ -94,8 +73,5 @@ public class CsvService {
     	salvaArq.removerCidade(ibge);
     	return ResponseEntity.ok().build();
     	
-    }
-    
-    
-
+    } 
 }
