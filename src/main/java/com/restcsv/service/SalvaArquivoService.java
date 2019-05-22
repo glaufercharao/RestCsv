@@ -38,7 +38,7 @@ public class SalvaArquivoService {
 	        
 			input.read();
 	        String s = br.readLine();
-
+	        
 	        while ((s = br.readLine())!= null) {
 	        	cidade.add(s.toString());
 	            String[] dados = s.split(",");
@@ -53,7 +53,7 @@ public class SalvaArquivoService {
 		for (String es : estado) {	
 			Estado estadoObj = new Estado();
 			estadoObj.setUf(es);
-
+			estadoRepo.save(estadoObj);
 			for (int i=0;i< cidade.size(); i++) {
 				String[] dados = cidade.get(i).split(",");
 				if(dados[1].equals(es)){
@@ -72,11 +72,8 @@ public class SalvaArquivoService {
 					
 					estadoObj.getCidades().addAll(Arrays.asList(cidadeObj));
 					cidadeRepo.saveAll(Arrays.asList(cidadeObj));
-				
 				}
-				estadoRepo.saveAll(Arrays.asList(estadoObj));
 			}
-			
 		}
 	}
 	
