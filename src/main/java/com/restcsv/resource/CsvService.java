@@ -37,9 +37,15 @@ public class CsvService {
 		return ResponseEntity.ok(cidade);
     }
     
-    @GetMapping(value="/cidade/listarPorNome/{id}")
-    public List<Cidade> listarPorNome(@PathVariable("id") Long id) {
-    	List<Cidade> cidades = salvaArq.cidadesPorNome(id);
+    @GetMapping(value="/cidade/listarPorUF/{uf}")
+    public List<Cidade> listarPorNome(@PathVariable("uf") String uf) {
+    	List<Cidade> cidades = salvaArq.cidadesPorNome(uf.toUpperCase());
+		return cidades;
+    }
+    
+    @GetMapping(value="/cidade/listarPorId/{id}")
+    public List<Cidade> listarPorId(@PathVariable("id") Long id) {
+    	List<Cidade> cidades = salvaArq.cidadesPorId(id);
 		return cidades;
     }
     

@@ -16,6 +16,9 @@ public interface CidadeRepository extends JpaRepository<Cidade, Long>{
 	  Long quantidadeRegistro();
 	  
 	  @Query("select c from Cidade c INNER JOIN c.estado where c.estado.id = ?1 ORDER BY c.name")
-	  List<Cidade> findCityByName(Long estado_id);
+	  List<Cidade> findCityById(Long estado_id);
+	  
+	  @Query("select c from Cidade c INNER JOIN c.estado where c.estado.uf like %?1% ORDER BY c.name")
+	  List<Cidade> findCityByName(String uf);
 }
 

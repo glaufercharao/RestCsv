@@ -98,7 +98,10 @@ public class SalvaArquivoService {
 		cidadeRepo.deleteById(ibge);	
 	}
 	
-	public List<Cidade> cidadesPorNome(Long id){
-		return cidadeRepo.findCityByName(id);
+	public List<Cidade> cidadesPorId(Long id){
+		return cidadeRepo.findCityById(id);
+	}
+	public List<Cidade> cidadesPorNome(String uf){
+		return cidadeRepo.findCityByName(uf);
 	}
 }
