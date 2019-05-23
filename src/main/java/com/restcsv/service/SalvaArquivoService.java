@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -103,5 +104,19 @@ public class SalvaArquivoService {
 	}
 	public List<Cidade> cidadesPorNome(String uf){
 		return cidadeRepo.findCityByName(uf);
+	}
+	
+	public List<HashMap<String, String>> retornQuantidadeCidadePorEstado(){
+		List<Estado> estado = estadoRepo.findAll();
+		HashMap<String, String> map;
+		List<HashMap<String, String>> quantidadeCidade = new ArrayList<>();
+		for (Estado es : estado) {
+			map = new HashMap<String, String>();
+			Long valor = cidadeRepo.quantidadeRegistroPorEstado(es.getId());
+			map.put("UF", es.getUf());
+			map.put("Quantidade", valor.toString());
+			quantidadeCidade.add(map);
+		}
+		return quantidadeCidade;
 	}
 }

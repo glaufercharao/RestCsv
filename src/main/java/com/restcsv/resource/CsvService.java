@@ -1,5 +1,6 @@
 package com.restcsv.resource;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +60,12 @@ public class CsvService {
     @GetMapping(value="/cidade/quantidade/")
     public Long retornaQuantidade() {
     	return salvaArq.quantidade();
+    }
+    
+    @GetMapping(value="/cidade/quantidadeCidadePorEstado/")
+    @ResponseBody
+    public List<HashMap<String, String>> retornaQuantidadeCidade() {
+       return salvaArq.retornQuantidadeCidadePorEstado();
     }
     
     @PostMapping(value = "/cidade/add")
