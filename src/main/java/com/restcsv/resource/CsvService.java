@@ -68,6 +68,12 @@ public class CsvService {
        return salvaArq.retornQuantidadeCidadePorEstado();
     }
     
+    @GetMapping(value="/cidade/maiorMenorCidade/")
+    @ResponseBody
+    public List<HashMap<String, String>> retornaMaiorMenorCidade() {
+       return salvaArq.maiorMenorCidadeEstado();
+    }
+    
     @PostMapping(value = "/cidade/add")
     public ResponseEntity<Cidade> adicionarCidade(@RequestBody Cidade cidade) {
     		salvaArq.adicionaCidade(cidade);

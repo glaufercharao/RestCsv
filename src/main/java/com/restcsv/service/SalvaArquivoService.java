@@ -114,9 +114,45 @@ public class SalvaArquivoService {
 			map = new HashMap<String, String>();
 			Long valor = cidadeRepo.quantidadeRegistroPorEstado(es.getId());
 			map.put("UF", es.getUf());
-			map.put("Quantidade", valor.toString());
+			map.put("Quantidade de Cidades", valor.toString());
 			quantidadeCidade.add(map);
 		}
+		return quantidadeCidade;
+	}
+	
+	public List<HashMap<String, String>> maiorMenorCidadeEstado(){
+		List<Estado> estado = estadoRepo.findAll();
+		HashMap<String, String> mapMaior = null;
+		HashMap<String, String> mapMenor = null;
+		List<HashMap<String, String>> quantidadeCidade = new ArrayList<>();
+		Long menor,maior,temp;
+		menor = maior = temp= 0L;
+		for (Estado es : estado) {
+			
+			temp = cidadeRepo.quantidadeRegistroPorEstado(es.getId());
+			if( menor == 0 && maior == 0) {
+				menor = temp;
+				maior = temp;
+			}
+			
+			if(temp >= maior) {
+				mapMaior = new HashMap<String, String>();
+				Long valor = cidadeRepo.quantidadeRegistroPorEstado(es.getId());
+				mapMaior.put("UF", es.getUf());
+				mapMaior.put("Quantidade de Cidades", valor.toString());
+				maior = temp;
+			}
+			if(maior <= menor) {
+				mapMenor = new HashMap<String, String>();
+				Long valor = cidadeRepo.quantidadeRegistroPorEstado(es.getId());
+				mapMenor.put("UF", es.getUf());
+				mapMenor.put("Quantidade de Cidades", valor.toString());
+				menor = maior;
+			}
+		}
+		quantidadeCidade.add(mapMaior);
+		quantidadeCidade.add(mapMenor);
+		
 		return quantidadeCidade;
 	}
 }
